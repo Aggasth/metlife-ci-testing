@@ -1,13 +1,26 @@
 trigger:
 - main
 
+variables:
+  dockerImage: 'yannhamon/kubeconform:latest'
+  k8sFilesDirectory: '$(Build.SourcesDirectory)/test-k8s-files'
+
 pool:
   vmImage: ubuntu-latest
 
+
+
+
 steps:
+- checkout: self
+- task: DockerInstaller@0
+  inputs:
+    dockerVersion: '17.09.0-ce'
+
 - script: |
-    docker build -t kubeconform .
-    docker run -v $(pwd)/test-k8s-files:/app kubeconform:latest -d /app
-  displayName: 'Docker build & run kubeconform image'
+    docker run -v $(k8sFilesDirectory):/app $(dockerImage) -summary -output json /app
+  displayName: 'Scann with Kubeconform'
+
+
 
 
