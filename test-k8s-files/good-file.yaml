@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-sin-errores
+spec:
+  containers:
+  - name: contenedor-1
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+  - name: contenedor-2
+    image: ubuntu:latest
+    ports:
+    - containerPort: 8080
